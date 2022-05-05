@@ -1,0 +1,13 @@
+/* .navbar{
+    background-color: rgb(228, 226, 70);
+} */
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.nav-components-right{
+    display: flex;
+    float: right;
+}
+
