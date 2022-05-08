@@ -30,12 +30,26 @@ class PublishRide(BaseResource):
         member_car_id = request_data['member_car_id'] 
         created_on = datetime.now()
         # travel_start_time = request_data['start_time']
-        # source_city_id = request_data['source_city_id']
+        source_city_id = request_data['source_city_id']
         destination_city_id = request_data['destinion_city_id']
         seats_offered = request_data['seats_offered']
         contribution_per_head = request_data['cost_per_head']
 
-        ride = Ride.objects.filter(member_car_id=phone).first()
+        ride = Ride.objects.filter(member_car_id=member_car_id).first()
+
+        if not ride:
+            ride = Ride.objects.create(member_car_id=member_car_id)
+            ride.created_on = created_on
+            ride.source_city_id = source_city_id
+            ride.destination_city_id = destination_city_id
+            ride.seats_offered = seats_offered
+            ride.contribution_per_head = contribution_per_head
+            ride.save()
+
+        return ok_response()
+        
+        
+
 
 
 
