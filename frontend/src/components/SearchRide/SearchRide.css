@@ -1,0 +1,15 @@
+form{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr) 600px;  
+}
+.wrapper-form{
+  height: 67vh;
+  width: auto;
+}
+#form-div{
+  z-index: 1;
+  position: absolute;
+  left: 20%;
+  top: 20%;
+  place-items: center;
+}

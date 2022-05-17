@@ -8,7 +8,7 @@ const Home = () => {
         <div>
         <div className="wrapper-form">
         <img src = "https://img.freepik.com/free-vector/taxi-out-from-phone-booking-online-taxi-service-graphic-design-vector-illustration_620585-19.jpg?w=2000" />
-            <div id="form-div">
+            <div id="form-div1">
                 <Form>
                     <Form.Control className="form-input-box1" type="email" placeholder="" />
                     <Form.Control className="form-input-box1" type="email" placeholder="" />
