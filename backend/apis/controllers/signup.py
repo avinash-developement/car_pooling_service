@@ -48,14 +48,16 @@ class SignUp(BaseResource):
             member.password = password
             member.save()
 
-        return legacy_member_view(member)        
+        resp = legacy_member_view(member)
+        if resp:
+            return ok_response(legacy_member_view(member))       
 
         
-        # errors = validate_post_data(request_data)
-        # if errors:
-        #     return error_response(400, errors)
+        errors = validate_post_data(request_data)
+        if errors:
+            return error_response(400, errors)
 
-        # return error_response(401, [])
+        return error_response(401, [])
 
 
     def delete(self, id=None):
