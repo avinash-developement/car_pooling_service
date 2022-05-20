@@ -7,7 +7,7 @@ function SearchRide() {
   return (  
         <div className="wrapper-form">
             <div id="form-div">
-                <Form>
+                <Form className='search-ride-form'>
                     <Form.Control className="form-input-box1" type="email" placeholder="" />
                     <Form.Control className="form-input-box1" type="email" placeholder="" />
                     <Form.Control className="form-input-box1" type="email" placeholder="" />
