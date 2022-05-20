@@ -5,6 +5,7 @@ import uuid
 
 class Car(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    car_registration_no = models.CharField(max_length=12, blank=False, null= True)
     name = models.CharField(max_length=256, blank=False, null=True)
     make = models.CharField(max_length=256, blank=False, null=True)
     model = models.CharField(max_length=256, blank=False, null=True)

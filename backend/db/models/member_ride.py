@@ -1,14 +1,11 @@
 from django.db import models
 from db.models.member import Member
-from db.models.car import Car
+from db.models.ride import Ride
 import uuid
 
-class MemberCar(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class MemberRide(models.Model):
     member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
-    car_id = models.ForeignKey(Car, on_delete=models.CASCADE)
-    car_registration_number = models.CharField(max_length=50, blank=False, null=False)
-    car_color = models.CharField(max_length=10, blank=False, null=False)
+    ride_id = models.ForeignKey(Ride, on_delete=models.CASCADE)
 
     # class Meta:
     #     ordering = ['-my_field_name']
@@ -24,4 +21,6 @@ class MemberCar(models.Model):
 
     
     def save(self, *args, **kwargs):
-        super(MemberCar, self).save(*args, **kwargs) 
+        super(MemberRide, self).save(*args, **kwargs)
+
+

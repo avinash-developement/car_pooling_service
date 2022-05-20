@@ -63,36 +63,30 @@ class PublishRide(BaseResource):
             ride.source_city_id = city1.id
             ride.destination_city_id = city2.id
             ride.save()
-
-
-
-
             
-
-            
-            
-        return ok_response()
+            if ride:
+                return ok_response()
         
+        errors = validate_post_data(request_data)
+        if errors:
+            return error_response(400, errors)
+
+        return error_response(401, [])
         
-
-
-
-
-
-
-
-        
-        # errors = validate_post_data(request_data)
-        # if errors:
-        #     return error_response(400, errors)
-
-        # return error_response(401, [])
-
-        
-
-
-
 
     def delete(self, id=None):
         return error_response(401, [])
+
+
+
+
+
+
+        
+
+        
+
+
+
+
 

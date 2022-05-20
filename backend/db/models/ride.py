@@ -1,6 +1,6 @@
 import imp
 from signal import default_int_handler
-from tkinter import CASCADE
+#from tkinter import CASCADE
 from django.db import models
 from django.utils import timezone
 import uuid
@@ -20,12 +20,10 @@ class Ride(models.Model):
     ride_start_time = models.TimeField(default=timezone.now)
     ride_end_time = models.TimeField(default=timezone.now)
     source_city_id = models.OneToOneField(City,on_delete=models.CASCADE)
-    destination_city_id = models.OneToOneField(City,on_delete=models.CASCADE)
+    destination_city = models.CharField(max_length=50, blank=False, null=True)
     seats_offered = models.PositiveIntegerField(default=0, null=True)
     contribution_per_head = models.PositiveIntegerField(default=0, null=True)
-
-                                                                                                    
-
+    
     # name = models.CharField(max_length=256, blank=False, null=True)
     # make = models.CharField(max_length=256, blank=False, null=True)
     # model = models.CharField(max_length=256, blank=False, null=True)

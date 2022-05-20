@@ -1,9 +1,9 @@
 from flask_restful import Resource
 from flask.globals import request
 from itsdangerous import json
-from backend.apis.views.all_rides import all_rides_view
-from backend.db.models.member_car import MemberCar
-from backend.db.models.car import Car
+from apis.views.all_rides import all_rides_view
+from db.models.member_car import MemberCar
+from db.models.car import Car
 
 from db.models.ride import Ride
 
@@ -24,8 +24,6 @@ class GetAllRides(BaseResource):
         member_car_id = result.member_car_id
         member_car = MemberCar.objects.get(id=member_car_id)
         car = Car.objects.get(id=member_car.car_id)
-        
-
         
         if(result):
             resp = all_rides_view(result,car.name)
