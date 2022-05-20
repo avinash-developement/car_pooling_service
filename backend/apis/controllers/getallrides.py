@@ -1,7 +1,12 @@
 from flask_restful import Resource
 from flask.globals import request
 from itsdangerous import json
+from backend.apis.views.all_rides import all_rides_view
+from backend.db.models.member_car import MemberCar
+from backend.db.models.car import Car
+
 from db.models.ride import Ride
+
 
 from utils.resource import BaseResource
 from utils.response import error_response, ok_response
@@ -13,12 +18,19 @@ class GetAllRides(BaseResource):
         param_json = request.args.to_dict() 
         start_location = param_json.get("start_location")
         end_location = param_json.get("end_location")
-        date = param_json.get("date")
+        ride_date = param_json.get("ride_date")
         no_of_passengers = param_json.get("no_of_paasengers")
-        result = Ride.objects.filter(source_city_id = start_location, destination_city_id = end_location)
-        if(result):
-            return ok_response(json.dumps(result))
+        result = Ride.objects.filter(seats_offered__gte = no_of_passengers,ride_date = ride_date, source_city_id = start_location, destination_city_id = end_location)
+        member_car_id = result.member_car_id
+        member_car = MemberCar.objects.get(id=member_car_id)
+        car = Car.objects.get(id=member_car.car_id)
+        
 
+        
+        if(result):
+            resp = all_rides_view(result,car.name)
+            return ok_response(resp)
+        
         return error_response(401, [])
 
 
