@@ -1,42 +1,51 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Button, Table } from 'react-bootstrap'
 
 function GetAllRides(props) {
     const navigate = useNavigate();
-    const data = [
-        {
-            id:'1',
-            car_model: 'Honda-City',
-            ride_start_time: '2pm',
-            ride_end_time: '9pm',
-            seats_offered: '2',
-            contribution_per_head: '250'
-        },
-        {
-            id:'12',
-            car_model: 'Honda-City',
-            ride_start_time: '2pm',
-            ride_end_time: '9pm',
-            seats_offered: '2',
-            contribution_per_head: '250'
-        },
-        {
-            id:'3',
-            car_model: 'Honda-City',
-            ride_start_time: '2pm',
-            ride_end_time: '9pm',
-            seats_offered: '2',
-            contribution_per_head: '250'
-        }
-    ]
+    const [data, set_data] = useState([])
+
+    useEffect(() => {
+        
+        fetch(`http://localhost:8048/carpooling/v1/getallrides/?start_location=${props.startLocation}&end_location=${props.endLocation}&ride_date=${props.rideDate}&no_of_paasengers=${props.passengers}` ,
+            {
+              method:"GET",
+              headers: {
+                "content-type": "application/json",
+                "accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+              },
+            })
+            .then(resp => resp.json())
+            .then(data=> {
+              if(data){
+                // alert(data);
+                console.log(JSON.stringify(data));
+                set_data(data)
+                // set_data(data);
+            //    handleLoginValidation();
+              }
+              
+            })
+            .catch(err => {
+              alert(err);
+            });
+       
+      }, [])
+    
+    
+
+
 
     const handleSelectRide = (rideId, userId) =>{
         if(userId){
+            alert(rideId)
             props.handleRide(rideId);
             navigate('/get-ride-details')
         }
         else{
+            props.handleRide(rideId);
             navigate('/login');
         }
         
@@ -62,7 +71,7 @@ function GetAllRides(props) {
                         <td>{item.ride_end_time}</td>
                         <td>{item.seats_offered}</td>
                         <td>{item.contribution_per_head}</td>
-                        <td><Button variant='primary' onClick={() =>handleSelectRide(item.id,props.userId)}>Book Ride</Button></td>
+                        <td><Button variant='primary' onClick={() =>handleSelectRide(item.ride_id,props.userId)}>Book Ride</Button></td>
                     </tr>
                 ))}
             </Table>

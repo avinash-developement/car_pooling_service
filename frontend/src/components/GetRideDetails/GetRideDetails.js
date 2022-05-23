@@ -1,33 +1,88 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Button,Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 
 
 function GetRideDetails(props) {
-    const rideDetails =[
-        {
-            car_model:'Honda-amaze',
-            car_number:'MH16 BX 0301',
-            driver_name:'Pranav',
-            start_time:'2pm',
-            end_time:'6pm',
-            total_cost:'500'
-        }
-    ]
+    // const rideDetails =[
+    //     {
+    //         car_model:'Honda-amaze',
+    //         car_number:'MH16 BX 0301',
+    //         driver_name:'Pranav',
+    //         start_time:'2pm',
+    //         end_time:'6pm',
+    //         total_cost:'500'
+    //     }
+    // ]
+
+    const [rideDetails, set_rideDetails] = useState([])
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
 
     const navigate = useNavigate();
     const handleBooking = (userId) =>{
-        // alert(`${userId}`)
-        // navigate('/')
         handleShow();
     }
     const handleRedirect =() =>{
-        handleClose();
-        navigate('/');
+        fetch("http://localhost:8048/carpooling/v1/getride/",
+        {
+          method:"POST",
+          headers: {
+            "content-type": "application/json",
+            "accept": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Request-Method": "POST"
+          },
+          body:JSON.stringify({
+            ride_id: props.rideId,
+            member_id: props.userId
+
+          })
+        })
+        .then(resp => resp.json())
+        .then(data=> {
+          if(data){
+            if(data){
+                handleClose();
+                navigate('/');
+            }
+          }
+          
+        })
+        .catch(err => {
+          alert(err);
+        });
+
     }
+
+    useEffect(() => {
+        
+        fetch(`http://localhost:8048/carpooling/v1/getride/${props.rideId}` ,
+            {
+              method:"GET",
+              headers: {
+                "content-type": "application/json",
+                "accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+              },
+            })
+            .then(resp => resp.json())
+            .then(data=> {
+              if(data){
+                // alert(data);
+                alert(JSON.stringify(data));
+                set_rideDetails(data)
+                // set_data(data);
+            //    handleLoginValidation();
+              }
+              
+            })
+            .catch(err => {
+              alert(err);
+            });
+       
+      }, [])
 
   return (
       <div>
@@ -39,19 +94,20 @@ function GetRideDetails(props) {
                     CAR MODEL:{item.car_model}
                 </div>
                 <div>
-                    CAR NUMBER:{item.car_number}
+                    CAR NUMBER:{item.car_reg_no}
                 </div>
                 <div>
-                    DRIVER NAME:{item.driver_name}
+                    {/* DRIVER NAME:{item.driver_name} */}
+
                 </div>
                 <div>
-                    START TIME:{item.start_time}
+                    START TIME:{item.ride_start_time}
                 </div>
                 <div>
-                    END TIME:{item.end_time}
+                    END TIME:{item.ride_end_time}
                 </div>
                 <div>
-                    TOTAL COST:{item.total_cost}
+                    TOTAL COST:{item.contribution_per_head}
                 </div>
                 <div>
                     <Button onClick={() =>handleBooking(props.userId)}>CONFIRM BOOKING</Button>

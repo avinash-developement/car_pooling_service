@@ -11,6 +11,7 @@ import { Footer } from './components/Footer/Footer';
 import GetAllRides from './components/GetAllRides/GetAllRides';
 import GetRideDetails from './components/GetRideDetails/GetRideDetails';
 import Login from './components/Login/Login.js';
+import Test from './components/Test';
 
 function App() {
   const [startLocation, set_startLocation] = useState("")
@@ -38,16 +39,25 @@ function App() {
   const handleRide = (id) =>{
     set_rideId(id)
 }
+const handleUserId = (id) =>{
+  set_userId(id);
+}
   
 
   return (
     <Router>
         <div >
-        <Header />
+        <Header userId={userId} />
           <Routes>
-          <Route exact path='/login' element={<Login />}></Route>
+          <Route exact path='/test' element={<Test />}></Route>
+          <Route exact path='/login' element={<Login 
+            handleUserId = {handleUserId}
+            rideId={rideId}
+          />}></Route>
             <Route exact path='/search-ride' element={<SearchRide />} />
-            <Route exact path='/publish-ride' element={<PublishRide />} />
+            <Route exact path='/publish-ride' element={<PublishRide 
+            
+            />} />
             <Route exact path='/get-ride-details' element={<GetRideDetails
              rideId={rideId}
              userId={userId}
